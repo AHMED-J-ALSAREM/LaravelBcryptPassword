@@ -1,0 +1,38 @@
+{
+    "name": "ahmad/laravel-bcrypt-password",
+    "description": "A Laravel package for bcrypt password hashing functionality",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ahmad\\\\LaravelBcryptPassword\\\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ahmad\\\\LaravelBcryptPassword\\\\Tests\\\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^7.4|^8.0",
+        "illuminate/support": "^8.0|^9.0|^10.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0|^7.0|^8.0",
+        "phpunit/phpunit": "^9.0",
+        "squizlabs/php_codesniffer": "^3.11",
+        "phpcompatibility/php-compatibility": "^9.3"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "check-style": "phpcs -p --standard=PSR12 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+        "fix-style": "phpcbf -p --standard=PSR12 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ahmad\\\\LaravelBcryptPassword\\\\BcryptPasswordServiceProvider"
+            ]
+        }
+    }
+}
