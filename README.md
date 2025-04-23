@@ -1,6 +1,6 @@
 # Laravel Bcrypt Password
 
-A Laravel package for bcrypt password hashing functionality.
+A Laravel package for bcrypt password hashing functionality with WordPress password compatibility.
 
 ## Installation
 
@@ -32,8 +32,19 @@ public function __construct(PasswordHasher $hasher)
 // Hash a password
 $hash = $this->hasher->hash('password123');
 
-// Verify a password
+// Verify a password (supports both Laravel and WordPress hashes)
 $isValid = $this->hasher->verify('password123', $hash);
+
+// WordPress Password Compatibility
+// Example with WordPress password hash
+$wp_hash = '$wp$2y$10$y6/UfA/WhvVLZK6RxBSJE./L6YpJN8ChGg15a0Pqry/bTGsDuMR1q';
+$isValid = $this->hasher->verify('Na101918!', $wp_hash);
+
+// Supports multiple WordPress hash formats:
+// 1. WordPress bcrypt with $wp$ prefix
+// 2. WordPress phpass with $P$ prefix
+// 3. phpBB3 with $H$ prefix
+// 4. Standard bcrypt with $2y$ prefix
 
 // Check if password needs rehash
 $needsRehash = $this->hasher->needsRehash($hash);
@@ -41,10 +52,12 @@ $needsRehash = $this->hasher->needsRehash($hash);
 
 ## Configuration
 
-You can configure the bcrypt cost in your `.env` file:
+You can configure the bcrypt cost and WordPress compatibility options in your `.env` file:
 
 ```
 BCRYPT_COST=12
+WP_ITERATION_COUNT_LOG2=8
+WP_PORTABLE_PASSWORDS=true
 ```
 
 Or in the configuration file `config/bcrypt-password.php`.
