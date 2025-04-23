@@ -26,21 +26,37 @@ class PasswordHasher
 
     public function verify($password, $hash)
     {
-        $max_length = config('bcrypt-password.validation.max_length', 4096);
-        if (strlen($password) > $max_length) {
-            return false;
-        }
+        // Debug incoming values
+        \Log::debug('PasswordHasher verify attempt', [
+            'password_length' => strlen($password),
+            'original_hash' => $hash
+        ]);
 
-        // Handle WordPress phpass format ($P$ or $H$)
-        if (substr($hash, 0, 3) === '$P$' || substr($hash, 0, 3) === '$H$') {
-            return $this->wp_hasher->CheckPassword($password, $hash);
-        }
-
-        // Handle bcrypt format (with or without WordPress prefix)
-        if (strpos($hash, '$wp$') === 0) {
+        // Handle WordPress bcrypt format
+        if (str_starts_with($hash, '$wp$')) {
             $hash = '$' . substr($hash, 4);
+            \Log::debug('Cleaned WordPress hash', [
+                'cleaned_hash' => $hash
+            ]);
+            return $this->verifyBcrypt($password, $hash);
         }
-        return password_verify($password, $hash);
+
+        // Handle standard bcrypt
+        if (str_starts_with($hash, '$2y$')) {
+            return $this->verifyBcrypt($password, $hash);
+        }
+
+        // Fallback to WordPress portable hasher
+        return $this->wp_hasher->CheckPassword($password, $hash);
+    }
+
+    protected function verifyBcrypt($password, $hash)
+    {
+        $result = password_verify($password, $hash);
+        \Log::debug('Bcrypt verification result', [
+            'result' => $result
+        ]);
+        return $result;
     }
 
     public function needsRehash($hash)
