@@ -20,7 +20,7 @@ class PasswordHasher
 
     public function verify($password, $hash)
     {
-        // Remove WordPress prefix if it exists
+        // Remove WordPress prefix if it exists and verify
         if (strpos($hash, '$wp$') === 0) {
             $hash = '$' . substr($hash, 4);
         }
