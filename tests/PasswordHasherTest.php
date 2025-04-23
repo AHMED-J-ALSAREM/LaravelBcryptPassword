@@ -1,8 +1,8 @@
 <?php
 
-namespace Ahmad\LaravelBcryptPassword\Tests;
+namespace AhmedJAlsarem\LaravelBcryptPassword\Tests;
 
-use Ahmad\LaravelBcryptPassword\PasswordHasher;
+use AhmedJAlsarem\LaravelBcryptPassword\PasswordHasher;
 use Orchestra\Testbench\TestCase;
 
 class PasswordHasherTest extends TestCase

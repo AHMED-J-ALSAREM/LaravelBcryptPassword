@@ -1,6 +1,6 @@
 <?php
 
-namespace Ahmad\LaravelBcryptPassword;
+namespace AhmedJAlsarem\LaravelBcryptPassword;
 
 class PasswordHasher
 {
