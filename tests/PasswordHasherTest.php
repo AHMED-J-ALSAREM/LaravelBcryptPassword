@@ -20,8 +20,9 @@ class PasswordHasherTest extends TestCase
         $password = 'secret123';
         $hash = $this->hasher->hash($password);
         
+        $this->assertStringStartsWith('$wp$2y$', $hash);
         $this->assertNotEquals($password, $hash);
-        $this->assertTrue(password_verify($password, $hash));
+        $this->assertTrue($this->hasher->verify($password, $hash));
     }
 
     public function test_it_can_verify_passwords()
@@ -33,11 +34,21 @@ class PasswordHasherTest extends TestCase
         $this->assertFalse($this->hasher->verify('wrong_password', $hash));
     }
 
+    public function test_it_can_verify_wordpress_style_passwords()
+    {
+        $password = 'Na101918!';
+        $hash = '$wp$2y$10$y6/UfA/WhvVLZK6RxBSJE./L6YpJN8ChGg15a0Pqry/bTGsDuMR1q';
+        
+        $this->assertTrue($this->hasher->verify($password, $hash));
+        $this->assertFalse($this->hasher->verify('wrong_password', $hash));
+    }
+
     public function test_it_can_check_if_password_needs_rehash()
     {
         $password = 'secret123';
         $hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
+        $wpHash = '$wp$' . substr($hash, 1);
         
-        $this->assertTrue($this->hasher->needsRehash($hash));
+        $this->assertTrue($this->hasher->needsRehash($wpHash));
     }
 }
