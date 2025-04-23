@@ -20,7 +20,8 @@ class BcryptPasswordServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(PasswordHasher::class, function ($app) {
-            return new PasswordHasher(config('bcrypt-password'));
+            $config = $app['config']->get('bcrypt-password', []);
+            return new PasswordHasher(is_array($config) ? $config : []);
         });
     }
 }
