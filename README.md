@@ -7,7 +7,7 @@ A Laravel package for bcrypt password hashing functionality.
 You can install the package via composer:
 
 ```bash
-composer require ahmad/laravel-bcrypt-password
+composer require ahmed-j-alsarem/laravel-bcrypt-password
 ```
 
 ## Configuration
@@ -15,13 +15,13 @@ composer require ahmad/laravel-bcrypt-password
 Publish the configuration file:
 
 ```bash
-php artisan vendor:publish --provider="Ahmad\LaravelBcryptPassword\BcryptPasswordServiceProvider"
+php artisan vendor:publish --provider="AhmedJAlsarem\LaravelBcryptPassword\BcryptPasswordServiceProvider"
 ```
 
 ## Usage
 
 ```php
-use Ahmad\LaravelBcryptPassword\PasswordHasher;
+use AhmedJAlsarem\LaravelBcryptPassword\PasswordHasher;
 
 // Via dependency injection
 public function __construct(PasswordHasher $hasher)
